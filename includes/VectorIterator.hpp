@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 10:30:50 by vducoulo          #+#    #+#             */
-/*   Updated: 2022/12/29 16:33:21 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/05 13:24:04 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,56 @@ namespace ft
 		VectorIterator	&operator=(VectorIterator const &rhs)
 		{	return (this->_p = rhs._p, *this);				}
 		
-		reference 		operator*(void)
-		{	return (*this->_p);									}
+		reference 		operator*(void) const
+		{	return (*this->_p);								}
 
+		bool operator==(VectorIterator const &rhs)
+		{	return (_p == rhs._p);							} // better with friend ?
 
+		bool operator!=(VectorIterator const &rhs)
+		{	return (_p != rhs._p);							} // better with friend ?
+
+		bool operator>=(VectorIterator const &rhs)
+		{	return (_p >= rhs._p);							} // better with friend ?
+
+		bool operator<=(VectorIterator const &rhs)
+		{	return (_p <= rhs._p);							} // better with friend ?
+
+		bool operator<(VectorIterator const &rhs)
+		{	return (_p < rhs._p);							} // better with friend ?
+
+		bool operator>(VectorIterator const &rhs)
+		{	return (_p > rhs._p);							} // better with friend ?
+
+		bool operator+(VectorIterator const &rhs)
+		{	return (_p + rhs._p);							} //not_sure
+
+		bool operator-(VectorIterator const &rhs)
+		{	return (_p - rhs._p);							} //not_sure
+
+		VectorIterator &operator+=(int increment)
+		{	return (_p += increment, *this);				}
+
+		VectorIterator &operator-=(int increment)
+		{	return (_p -= increment, *this);				}
+
+		VectorIterator &operator++()
+		{	return (++_p, *this);							}
+
+		VectorIterator &operator--()
+		{	return (--_p, *this);							}
+		
+		VectorIterator operator++(int)
+		{	
+			VectorIterator<T> tmp(*this);
+			return (++_p, tmp);
+		}
+
+		VectorIterator operator--(int)
+		{	
+			VectorIterator<T> tmp(*this);
+			return (--_p, tmp);
+		}
 	};
 }
 #endif
