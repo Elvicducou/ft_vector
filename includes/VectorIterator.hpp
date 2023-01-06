@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 10:30:50 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/05 13:24:04 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/06 11:43:27 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ namespace ft
 		
 		reference 		operator*(void) const
 		{	return (*this->_p);								}
+
+		pointer			operator->()
+		{	return (this->_p);								}
 
 		bool operator==(VectorIterator const &rhs)
 		{	return (_p == rhs._p);							} // better with friend ?
