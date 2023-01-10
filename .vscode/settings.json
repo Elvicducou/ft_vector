@@ -51,6 +51,20 @@
 		"type_traits": "cpp",
 		"typeinfo": "cpp",
 		"variant": "cpp",
-		"iomanip": "cpp"
+		"iomanip": "cpp",
+		"__functional_base": "cpp",
+		"__hash_table": "cpp",
+		"__node_handle": "cpp",
+		"algorithm": "cpp",
+		"array": "cpp",
+		"bit": "cpp",
+		"cmath": "cpp",
+		"complex": "cpp",
+		"functional": "cpp",
+		"iterator": "cpp",
+		"optional": "cpp",
+		"sstream": "cpp",
+		"unordered_map": "cpp",
+		"utility": "cpp"
 	}
 }

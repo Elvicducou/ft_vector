@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   VectorIterator.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vducoulo <vducoulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 10:30:50 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/06 11:43:27 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/10 18:22:04 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #define CPP_VECTORITERATOR_HPP
 
 #include "project.hh"
-
+	
 namespace ft
 {
 	template <typename T>
-	class VectorIterator
+	class vectorIterator
 	{
 		public : 
 
@@ -41,7 +41,7 @@ namespace ft
 		virtual 		~VectorIterator() 											{};
 		
 		
-		VectorIterator	&operator=(VectorIterator const &rhs)
+		vectorIterator	&operator=(VectorIterator const &rhs)
 		{	return (this->_p = rhs._p, *this);				}
 		
 		reference 		operator*(void) const
@@ -74,25 +74,25 @@ namespace ft
 		bool operator-(VectorIterator const &rhs)
 		{	return (_p - rhs._p);							} //not_sure
 
-		VectorIterator &operator+=(int increment)
+		vectorIterator &operator+=(int increment)
 		{	return (_p += increment, *this);				}
 
-		VectorIterator &operator-=(int increment)
+		vectorIterator &operator-=(int increment)
 		{	return (_p -= increment, *this);				}
 
-		VectorIterator &operator++()
+		vectorIterator &operator++()
 		{	return (++_p, *this);							}
 
-		VectorIterator &operator--()
+		vectorIterator &operator--()
 		{	return (--_p, *this);							}
 		
-		VectorIterator operator++(int)
+		vectorIterator operator++(int)
 		{	
 			VectorIterator<T> tmp(*this);
 			return (++_p, tmp);
 		}
 
-		VectorIterator operator--(int)
+		vectorIterator operator--(int)
 		{	
 			VectorIterator<T> tmp(*this);
 			return (--_p, tmp);

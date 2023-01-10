@@ -6,23 +6,30 @@
 
 namespace ft
 {
-
 	template<typename T>
-	class Vector
+	class reverseIterator
+	{
+
+	};
+
+	template<typename T, class Alloc = std::allocator<T>>
+	class vector
 	{
 		public :
 
-		typedef T 							value_type;
-		typedef T 							*pointer;
-		typedef T const 					*const_pointer;
-		typedef T 							&reference;
-		typedef T const 					&const_reference;
-		typedef	std::ptrdiff_t				difference_type;
-		typedef std::size_t					size_type;
-		typedef VectorIterator<T>			iterator;
-		typedef VectorIterator<T> const 	const_iterator;
-		typedef ReverseIterator<T>			reverse_iterator;
-		typedef ReverseIterator<T> const	const_reverse_iterator;
+		typedef T 											value_type;
+		typedef Alloc										allocator_type;
+		typedef allocator_type::pointer 					pointer;
+		typedef allocator_type::const_pointer				const_pointer;
+		typedef allocator_type::reference 					reference;
+		typedef allocator_type::const_reference  			const_reference;
+
+		typedef	std::ptrdiff_t								difference_type;
+		typedef std::size_t									size_type;
+		typedef vectorIterator<value_type>					iterator;
+		typedef vectorIterator<value_type> const 			const_iterator;
+		typedef reverseIterator<iterator>					reverse_iterator;
+		typedef reverseIterator<const_iterator> const		const_reverse_iterator;
 
 		private :
 
@@ -32,11 +39,22 @@ namespace ft
 
 		public :
 
-		Vector	() : _p(nullptr), _size(0), _capacity(0)	{};
-		Vector	(size_type n, const T& value)
-		~Vector	()	{};
+		explicit vector (const allocator_type& alloc = allocator_type()) 
+		: _p(nullptr), _size(0), _capacity(0)	{};
 
-		Vector	&operator=(Vector const &rhs)
+		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+		: _p(nullptr), _size(0), _capacity(0)	{};
+
+		template <class InputIterator>
+		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+		: _p(nullptr), _size(0), _capacity(0)	{};
+
+		vector	(size_type n, const T& value)
+		: _p(nullptr), _size(0), _capacity(0)	{};
+		
+		~vector	()	{};
+
+		vector	&operator=(Vector const &rhs)
 		{	_p = rhs._p;
 			_size = rhs._size;
 			_capacity = rhs._capacity;
