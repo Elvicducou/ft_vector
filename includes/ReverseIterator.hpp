@@ -20,6 +20,6 @@ namespace ft
 			{	return (this->_p = rhs._p, *this);				}
 			
 			reference operator*(void) const
-			{	return (_p);									}
-	}
+			{	return (*this->_p);									} //not_sure
+	};
 }

@@ -6,14 +6,14 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:25:12 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/05 13:22:45 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/09 10:59:38 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "includes/Vector.hpp"
 # include <vector>
 
-void testspace(void)
+void testspace_iterator(void)
 {
 	std::vector<std::string> test;
 	ft::VectorIterator<std::string> myiterator;
@@ -33,7 +33,17 @@ void testspace(void)
 		std::cout << "no equals" << std::endl;
 }
 
+void	testspace_vector(void)
+{
+	ft::Vector<int>	myvector;
+	ft::Vector<int>	myvector2;
+	std::vector<int> base;
+
+	myvector2 = myvector;
+}
+
 int main(void)
 {
-	testspace();
+	testspace_vector();
+	//testspace_iterator();
 }
