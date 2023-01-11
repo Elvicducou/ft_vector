@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   VectorIterator.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 10:30:50 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/10 18:22:04 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:59:15 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ namespace ft
 		
 		public : 
 
-						VectorIterator()							: _p(nullptr) 	{};
-						VectorIterator(VectorIterator const &base) 	: _p(base._p) 	{};
-						VectorIterator(pointer base)				: _p(base)		{};
-		virtual 		~VectorIterator() 											{};
+						vectorIterator()							: _p(nullptr) 	{};
+						vectorIterator(vectorIterator const &base) 	: _p(base._p) 	{};
+						vectorIterator(pointer base)				: _p(base)		{};
+		virtual 		~vectorIterator() 											{};
 		
 		
-		vectorIterator	&operator=(VectorIterator const &rhs)
+		vectorIterator	&operator=(vectorIterator const &rhs)
 		{	return (this->_p = rhs._p, *this);				}
 		
 		reference 		operator*(void) const
@@ -50,28 +50,28 @@ namespace ft
 		pointer			operator->()
 		{	return (this->_p);								}
 
-		bool operator==(VectorIterator const &rhs)
+		bool operator==(vectorIterator const &rhs)
 		{	return (_p == rhs._p);							} // better with friend ?
 
-		bool operator!=(VectorIterator const &rhs)
+		bool operator!=(vectorIterator const &rhs)
 		{	return (_p != rhs._p);							} // better with friend ?
 
-		bool operator>=(VectorIterator const &rhs)
+		bool operator>=(vectorIterator const &rhs)
 		{	return (_p >= rhs._p);							} // better with friend ?
 
-		bool operator<=(VectorIterator const &rhs)
+		bool operator<=(vectorIterator const &rhs)
 		{	return (_p <= rhs._p);							} // better with friend ?
 
-		bool operator<(VectorIterator const &rhs)
+		bool operator<(vectorIterator const &rhs)
 		{	return (_p < rhs._p);							} // better with friend ?
 
-		bool operator>(VectorIterator const &rhs)
+		bool operator>(vectorIterator const &rhs)
 		{	return (_p > rhs._p);							} // better with friend ?
 
-		bool operator+(VectorIterator const &rhs)
+		bool operator+(vectorIterator const &rhs)
 		{	return (_p + rhs._p);							} //not_sure
 
-		bool operator-(VectorIterator const &rhs)
+		bool operator-(vectorIterator const &rhs)
 		{	return (_p - rhs._p);							} //not_sure
 
 		vectorIterator &operator+=(int increment)
@@ -88,13 +88,13 @@ namespace ft
 		
 		vectorIterator operator++(int)
 		{	
-			VectorIterator<T> tmp(*this);
+			vectorIterator<T> tmp(*this);
 			return (++_p, tmp);
 		}
 
 		vectorIterator operator--(int)
 		{	
-			VectorIterator<T> tmp(*this);
+			vectorIterator<T> tmp(*this);
 			return (--_p, tmp);
 		}
 	};

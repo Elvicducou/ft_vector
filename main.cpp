@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:25:12 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/09 10:59:38 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:09:44 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 void testspace_iterator(void)
 {
 	std::vector<std::string> test;
-	ft::VectorIterator<std::string> myiterator;
-	ft::VectorIterator<std::string> myinterator2;
+	ft::vectorIterator<std::string> myiterator;
+	ft::vectorIterator<std::string> myinterator2;
 	std::vector<std::string>::iterator baseiterator;
 
 	myiterator = myinterator2;
@@ -35,11 +35,8 @@ void testspace_iterator(void)
 
 void	testspace_vector(void)
 {
-	ft::Vector<int>	myvector;
-	ft::Vector<int>	myvector2;
-	std::vector<int> base;
-
-	myvector2 = myvector;
+	ft::vector<int>	myvector;
+	ft::vector<int>	myvector2(10);
 }
 
 int main(void)
