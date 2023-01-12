@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:25:12 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/11 23:51:05 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:34:55 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,12 @@ void	vectorPrinter(ft::vector<T> &v)
 void	testspace_vector(void)
 {
 	ft::vector<int>	myvector;
-	//ft::vector<int>	myvector2(10);
-	ft::vector<std::string> myvector3(100, "bite");
+	ft::vector<int>	myvector2(10, 10);
+	ft::vector<std::string> myvector3(10, "bite");
+	ft::vectorIterator<std::string> iter = myvector3.begin();
+
+	for (; iter != myvector3.end(); iter++)
+		std::cout << *iter << std::endl;
 	//vectorPrinter(myvector2);
 }
 

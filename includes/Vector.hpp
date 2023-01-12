@@ -64,7 +64,7 @@ namespace ft
 			_p = nullptr; // debug
 		};
 		
-		vector (const vector& x)
+		vector (const vector& x)	//todo
 		{ };
 
 		~vector	()
@@ -77,7 +77,7 @@ namespace ft
 
 		//			Operator Overload						//
 		
-		vector	&operator=(vector const &rhs)
+		vector	&operator=(vector const &rhs)		//tocomplete
 		{	_p = rhs._p;
 			_size = rhs._size;
 			_capacity = rhs._capacity;
@@ -87,7 +87,7 @@ namespace ft
 		//			End of Operator overload				//
 
 		template <class InputIterator>
-  		void assign (InputIterator first, InputIterator last)
+  		void assign (InputIterator first, InputIterator last)		//todo
 		{
 
 		}
@@ -98,10 +98,88 @@ namespace ft
 			this->resize(n, val);
 		}
 
-		void clear(void)
+		void clear(void)			//todo
 		{
-	
+			std::cout << "hihihi alors normalement on clear ici" << std::endl;
 		}
+
+		//			Iterators								//
+
+		iterator begin(void)
+		{
+			return (iterator(_p));
+		}
+
+		const_iterator begin(void) const
+		{
+			return (const_iterator(_p));
+		}
+
+		reverse_iterator rbegin(void)
+		{
+			return (reverse_iterator(_p));
+		}
+
+		const_reverse_iterator rbegin(void) const
+		{
+			return (const_revrese_iterator(_p));
+		}
+
+		iterator end(void)
+		{
+			return (iterator(_p + _size));
+		}
+
+		const_iterator	end(void) const
+		{
+			return (const_iterator(_P + _size));
+		}
+
+		reverse_iterator rend(void)
+		{
+			return (reverse_iterator(_p + _size));
+		}
+
+		const_reverse_iterator rend(void) const
+		{
+			return (const_resverse_iterator(_P + _size));
+		}
+
+		//			End of Iterators						//
+
+		//			Capacity								//
+
+		size_type size(void) const
+		{
+			return (_size);
+		}
+
+		size_type max_size(void) const
+		{
+			return (_allocator.max_size());
+		}
+
+		void resize(size_type n, value_type val = value_type())	//todo
+		{
+
+		}
+
+		size_type capacity(void) const
+		{
+			return (_capacity);
+		}
+
+		bool empty(void) const
+		{
+			return (_size ? true : false);
+		}
+
+		void reserve(size_type n)			//todo
+		{
+
+		}
+
+		//			End of Capacity							//
 	};
 
 }
