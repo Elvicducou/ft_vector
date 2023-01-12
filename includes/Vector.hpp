@@ -51,26 +51,27 @@ namespace ft
 		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 		: _allocator(alloc), _size(n), _capacity(n)
 		{
-			_p = _allocator.allocate(n);
-			for (size_t i = 0; i < _size; i++)
-				_p[i] = val;
+			_p = _allocator.allocate(_size);
+			for (size_type i = 0; i < _size; i++)
+				_allocator.construct(_p + i, val);
 		};
 
-		template <class InputIterator>
+		template <class InputIterator> //totest
 		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
-		: _allocator(alloc), _p(nullptr), _size(0), _capacity(0)
+		: _allocator(alloc)
 		{
-			std::cout << "called" << std::endl;
-			_p = nullptr; // debug
+			_p = _allocator.allocate(last - first);
+			_size = last - first;
+			_capacity = last - first;
+			std::uninitialized_copy_n(first, _size, _p);
 		};
 		
-		vector (const vector& x)	//todo
-		{ };
+		vector (const vector& rhs)	//todo
+		{};
 
 		~vector	()
 		{
 			this->clear();
-			_allocator.deallocate(_p, _size);
 		};
 
 		//			End of Constructors / Destructors		//
@@ -86,21 +87,12 @@ namespace ft
 
 		//			End of Operator overload				//
 
-		template <class InputIterator>
-  		void assign (InputIterator first, InputIterator last)		//todo
-		{
-
-		}
-
-		void assign (size_type n, const value_type& val)
-		{
-			this->clear;
-			this->resize(n, val);
-		}
 
 		void clear(void)			//todo
 		{
-			std::cout << "hihihi alors normalement on clear ici" << std::endl;
+			_allocator.deallocate(_p, _capacity);
+			_size = 0;
+			_capacity = 0;
 		}
 
 		//			Iterators								//
@@ -132,7 +124,7 @@ namespace ft
 
 		const_iterator	end(void) const
 		{
-			return (const_iterator(_P + _size));
+			return (const_iterator(_p + _size));
 		}
 
 		reverse_iterator rend(void)
@@ -142,7 +134,7 @@ namespace ft
 
 		const_reverse_iterator rend(void) const
 		{
-			return (const_resverse_iterator(_P + _size));
+			return (const_reverse_iterator(_p + _size));
 		}
 
 		//			End of Iterators						//
@@ -159,9 +151,23 @@ namespace ft
 			return (_allocator.max_size());
 		}
 
-		void resize(size_type n, value_type val = value_type())	//todo
+		void resize(size_type n, value_type val = value_type())	//totest
 		{
-
+			if (n > _capacity)
+			{
+				pointer tmp_p = _allocator.allocate(n);
+				std::uninitialized_fill_n(tmp_p, n, val);
+				if (_size)
+				{
+					std::copy(_p, _p + _size, tmp_p);
+					_allocator.deallocate(_p, _capacity);
+				}
+				_p = tmp_p;
+				_capacity = n;
+			}
+			else if (n <= _capacity)
+				std::fill(_p + _size, _p + n, val);
+			_size = n;
 		}
 
 		size_type capacity(void) const
@@ -174,12 +180,86 @@ namespace ft
 			return (_size ? true : false);
 		}
 
-		void reserve(size_type n)			//todo
+		void reserve(size_type n)			//totest
 		{
-
+			if (n > _capacity)
+			{
+				pointer tmp_p = _allocator.allocate(n);
+				std::uninitialized_copy_n(_p, _size, tmp_p);
+				_capacity = n;
+				_p = tmp_p;
+			}
 		}
 
 		//			End of Capacity							//
+
+		//			Element Access							//
+
+		reference operator[] (size_type n) // better with return( this->_P[]) ? 
+		{
+			// need for std::exeption ?
+			return (*(_p + n));
+		}
+
+		const_reference operator[] (size_type n) const
+		{
+			// need for std::exeption ?
+			return (*(_p + n));
+		}
+
+		reference at (size_type n)
+		{
+			if (n > _size)
+				throw (std::out_of_range("out of range"));
+			return (*(_p + n));
+		}
+
+		const_reference at (size_type n) const
+		{
+			if (n > _size)
+				throw (std::out_of_range("out of range"));
+			return (*(_p + n));
+		}
+
+		reference front(void)
+		{
+			return (_p);
+		}
+
+		const_reference front() const
+		{
+			return (_p);
+		}
+
+		reference back()
+		{
+			return (_p + _size);
+		}
+
+		const_reference back() const
+		{
+			return (_p + _size);
+		}
+
+		//			End of Access						//
+
+		//			Modifiers							//
+
+		template <class InputIterator>
+  		void assign (InputIterator first, InputIterator last) //totest
+		{
+			if (last - first > _capacity)
+				reserve(last - first);
+			_size = last - first;
+			_capacity = last - first;
+			std::uninitialized_copy_n(first, _size, _p);
+		}
+
+		void assign (size_type n, const value_type& val) //totest
+		{
+			this->clear();
+			this->resize(n, val);
+		}
 	};
 
 }
