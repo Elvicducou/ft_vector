@@ -87,14 +87,6 @@ namespace ft
 
 		//			End of Operator overload				//
 
-
-		void clear(void)			//todo
-		{
-			_allocator.deallocate(_p, _capacity);
-			_size = 0;
-			_capacity = 0;
-		}
-
 		//			Iterators								//
 
 		iterator begin(void)
@@ -166,7 +158,7 @@ namespace ft
 				_capacity = n;
 			}
 			else if (n <= _capacity)
-				std::fill(_p + _size, _p + n, val);
+				assign(n, val);
 			_size = n;
 		}
 
@@ -260,6 +252,39 @@ namespace ft
 			this->clear();
 			this->resize(n, val);
 		}
+
+		void clear (void)
+		{
+			_allocator.deallocate(_p, _capacity);
+			_size = 0;
+			_capacity = 0;
+			_p = nullptr;
+		}
+
+		void push_back (const value_type& val)
+		{
+			if (_size + 1 > _capacity)
+				this->reserve(_size + 4); // 4 is an arbitrary value to gain performance (less copy)
+			_allocator.construct(_p + _size, val);
+			_size++;
+		}
+
+		void pop_back (void)
+		{
+			if (_size)
+			{
+				_size --;
+			}
+		}
+
+		iterator insert (iterator position, const value_type& val)
+		{
+			
+		}
+
+    	void insert (iterator position, size_type n, const value_type& val);	
+		template <class InputIterator>
+    	void insert (iterator position, InputIterator first, InputIterator last);
 	};
 
 }
