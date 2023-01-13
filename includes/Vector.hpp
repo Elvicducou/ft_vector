@@ -282,7 +282,12 @@ namespace ft
 			
 		}
 
-    	void insert (iterator position, size_type n, const value_type& val);	
+    	void insert (iterator position, size_type n, const value_type& val)
+		{
+			pointer	tmp_p = _allocator.allocate(end() - position);
+			std::uninitialized_copy_n(position, end() - position, tmp_p);
+			assign(position, iterator(position + n), val);
+		}
 		template <class InputIterator>
     	void insert (iterator position, InputIterator first, InputIterator last);
 	};

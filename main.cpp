@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:25:12 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/12 19:40:36 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/13 22:11:57 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	testspace_vector(void)
 	//ft::vector<int>	myvector2(10, 10);
 	ft::vector<std::string> myvector3(10, "bite");
 	myvector3.resize(8, "prout");
-	myvector3.reserve(300000);
+	//myvector3.reserve(300000);
 	myvector3.resize(10, "prout");
 	//std::cout << "out : " << myvector3[11] << std::endl;
 	std::cout << "vec3 capacity : " << myvector3.capacity() << std::endl;
@@ -69,10 +69,11 @@ void	testspace_vector(void)
 	myvector3.push_back("test1");
 	myvector3.push_back("test2");
 	myvector3.pop_back();
-	myvector3.insert(myvector3.begin(), "WAOOOOOOOOOU");
+	myvector3.insert(myvector3.begin(), 5, "new");
+	//myvector3.insert(myvector3.begin(), "WAOOOOOOOOOU");
 	for (ft::vectorIterator<std::string> iter = myvector3.begin(); iter != myvector3.end(); iter++)
 	{
-		std::cout << *iter << std::endl;
+		std::cout << "print : " << *iter << std::endl;
 	}
 }
 
