@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 10:30:50 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/14 16:52:31 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/14 17:35:29 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ namespace ft
 		{
 			vectorIterator tmp(_p);
 			tmp -= n;
-			return (tmp);							
+			return (_p);							
 		}
 
 		vectorIterator &operator+=(int increment)
@@ -112,20 +112,6 @@ namespace ft
 			return (--_p, tmp);
 		}
 
-		vectorIterator operator+(const difference_type n) const
-		{
-			vectorIterator tmp(*this);
-			tmp += n;
-			return (tmp);
-		}
-
-		vectorIterator operator+(const difference_type n) const
-		{
-			vectorIterator tmp(*this);
-			tmp += n;
-			return (tmp);
-		}
-
 		reference operator[](int index)
 		{ 	return _p[index];								}
 
@@ -134,26 +120,6 @@ namespace ft
 
 		pointer base(void) const
 		{	return (_p);									}
-
-		friend vectorIterator operator-(difference_type n, vectorIterator &rhs)
-		{
-			vectorIterator tmp(rhs);
-			tmp -= n;
-			return (tmp);
-		}
-
-		friend vectorIterator operator+(difference_type n, vectorIterator &rhs)
-		{
-			vectorIterator tmp(rhs);
-			tmp += n;
-			return (tmp);
-		}
-
-		friend difference_type	operator-(const vectorIterator& lhs, const vectorIterator& rhs)
-		{	return (lhs._ptr - rhs._ptr);					}
-
-		friend difference_type	operator+(const vectorIterator& lhs, const vectorIterator& rhs)
-		{	return (lhs._ptr + rhs._ptr);					}
 	};
 }
 #endif
