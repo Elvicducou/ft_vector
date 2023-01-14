@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 10:30:50 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/13 22:42:55 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/14 16:52:31 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,43 @@ namespace ft
 		pointer			operator->() const
 		{	return (&(operator*()));						}
 
-		bool operator==(vectorIterator const &rhs)
-		{	return (_p == rhs._p);							} // better with friend ?
+		template <typename O>
+		bool operator==(vectorIterator<O> const &rhs)
+		{	return (_p == rhs._p);							}
 
-		bool operator!=(vectorIterator const &rhs)
-		{	return (_p != rhs._p);							} // better with friend ?
+		template <typename O>
+		bool operator!=(vectorIterator<O> const &rhs)
+		{	return (_p != rhs._p);							}
 
-		bool operator>=(vectorIterator const &rhs)
-		{	return (_p >= rhs._p);							} // better with friend ?
+		template <typename O>
+		bool operator>=(vectorIterator<O> const &rhs)
+		{	return (_p >= rhs._p);							}
+		
+		template <typename O>
+		bool operator<=(vectorIterator<O> const &rhs)
+		{	return (_p <= rhs._p);							}
+		
+		template <typename O>
+		bool operator<(vectorIterator<O> const &rhs)
+		{	return (_p < rhs._p);							}
+		
+		template <typename O>
+		bool operator>(vectorIterator<O> const &rhs)
+		{	return (_p > rhs._p);							}
 
-		bool operator<=(vectorIterator const &rhs)
-		{	return (_p <= rhs._p);							} // better with friend ?
+		vectorIterator operator+(difference_type const n) const
+		{
+			vectorIterator tmp(_p);
+			tmp += n;
+			return (tmp);							
+		}
 
-		bool operator<(vectorIterator const &rhs)
-		{	return (_p < rhs._p);							} // better with friend ?
-
-		bool operator>(vectorIterator const &rhs)
-		{	return (_p > rhs._p);							} // better with friend ?
-
-		bool operator+(vectorIterator const &rhs)
-		{	return (_p + rhs._p);							} //not_sure
-
-		bool operator-(vectorIterator const &rhs)
-		{	return (_p - rhs._p);							} //not_sure
+		vectorIterator operator-(difference_type const n) const
+		{
+			vectorIterator tmp(_p);
+			tmp -= n;
+			return (tmp);							
+		}
 
 		vectorIterator &operator+=(int increment)
 		{	return (_p += increment, *this);				}
@@ -80,10 +94,10 @@ namespace ft
 		vectorIterator &operator-=(int increment)
 		{	return (_p -= increment, *this);				}
 
-		vectorIterator &operator++()
+		vectorIterator &operator++(void)
 		{	return (++_p, *this);							}
 
-		vectorIterator &operator--()
+		vectorIterator &operator--(void)
 		{	return (--_p, *this);							}
 		
 		vectorIterator operator++(int)
@@ -97,6 +111,49 @@ namespace ft
 			vectorIterator<T> tmp(*this);
 			return (--_p, tmp);
 		}
+
+		vectorIterator operator+(const difference_type n) const
+		{
+			vectorIterator tmp(*this);
+			tmp += n;
+			return (tmp);
+		}
+
+		vectorIterator operator+(const difference_type n) const
+		{
+			vectorIterator tmp(*this);
+			tmp += n;
+			return (tmp);
+		}
+
+		reference operator[](int index)
+		{ 	return _p[index];								}
+
+		reference operator[](int index) const
+		{ 	return _p[index];								}
+
+		pointer base(void) const
+		{	return (_p);									}
+
+		friend vectorIterator operator-(difference_type n, vectorIterator &rhs)
+		{
+			vectorIterator tmp(rhs);
+			tmp -= n;
+			return (tmp);
+		}
+
+		friend vectorIterator operator+(difference_type n, vectorIterator &rhs)
+		{
+			vectorIterator tmp(rhs);
+			tmp += n;
+			return (tmp);
+		}
+
+		friend difference_type	operator-(const vectorIterator& lhs, const vectorIterator& rhs)
+		{	return (lhs._ptr - rhs._ptr);					}
+
+		friend difference_type	operator+(const vectorIterator& lhs, const vectorIterator& rhs)
+		{	return (lhs._ptr + rhs._ptr);					}
 	};
 }
 #endif
