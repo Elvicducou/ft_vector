@@ -49,7 +49,7 @@ namespace ft
 		: _p(nullptr), _size(0), _capacity(0), _allocator(alloc)	{};
 
 		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-		: _allocator(alloc), _size(n), _capacity(n)
+		: _size(n), _capacity(n), _allocator(alloc)
 		{
 			_p = _allocator.allocate(_size);
 			for (size_type i = 0; i < _size; i++)
@@ -67,7 +67,7 @@ namespace ft
 		};
 		
 		vector (const vector& rhs)	//todo
-		{};
+		{(void)rhs;};
 
 		~vector	()
 		{
@@ -143,22 +143,28 @@ namespace ft
 			return (_allocator.max_size());
 		}
 
-		void resize(size_type n, value_type val = value_type())	//totest
+		void resize(size_type n, value_type val = value_type())	//totest //DRASTIC CHANGE NEEDED
 		{
-			if (n > _capacity)
+			if (n >= _capacity)
 			{
 				pointer tmp_p = _allocator.allocate(n);
-				std::uninitialized_fill_n(tmp_p, n, val);
-				if (_size)
+				for (size_t i = 0; i < n; i++)
 				{
-					std::copy(_p, _p + _size, tmp_p);
-					_allocator.deallocate(_p, _capacity);
+					if (i < _size)
+						_allocator.construct(tmp_p + i, *(_p + i));
+					else
+						_allocator.construct(tmp_p + i, val);
 				}
+				_allocator.deallocate(_p, _capacity);
 				_p = tmp_p;
 				_capacity = n;
 			}
-			else if (n <= _capacity)
-				assign(n, val);
+			else if (n < _size)
+				while (_size > n)
+					pop_back();
+			else if (n > _size)
+				while (_size < n)
+					push_back(val);
 			_size = n;
 		}
 
@@ -177,7 +183,14 @@ namespace ft
 			if (n > _capacity)
 			{
 				pointer tmp_p = _allocator.allocate(n);
-				std::uninitialized_copy_n(_p, _size, tmp_p);
+				for (size_t i = 0; i < n; i++)
+				{
+					if (i < _size)
+						_allocator.construct(tmp_p + i, *(_p + i));
+					else
+						_allocator.construct(tmp_p + i, static_cast<value_type>("0"));
+				}
+				_allocator.deallocate(_p, _capacity);
 				_capacity = n;
 				_p = tmp_p;
 			}
@@ -263,8 +276,8 @@ namespace ft
 
 		void push_back (const value_type& val)
 		{
-			if (_size + 1 > _capacity)
-				this->reserve(_size + 4); // 4 is an arbitrary value to gain performance (less copy)
+			if (_size == _capacity)
+				this->reserve(_capacity + 4);
 			_allocator.construct(_p + _size, val);
 			_size++;
 		}
@@ -277,17 +290,33 @@ namespace ft
 			}
 		}
 
-		iterator insert (iterator position, const value_type& val)
+		iterator insert (iterator position, const value_type& val) // give a return value
 		{
-			
+			difference_type diff = position - this->begin();
+			insert(position, 1, val);
+			return (begin() + diff);
 		}
 
     	void insert (iterator position, size_type n, const value_type& val)
 		{
-			
+			difference_type diff = position - this->begin();
+			value_type tmp;
+			this->resize(_size + n, val);
+			iterator iter = begin() + diff;
+			iterator iter_end = end();
+			while (iter_end - n != iter)
+				tmp = *(iter_end - 1), *(iter_end - 1) = *(iter_end - 1 - n), *(iter_end - 1 - n) = tmp, iter_end--;
 		}
+
 		template <class InputIterator>
-    	void insert (iterator position, InputIterator first, InputIterator last);
+    	void insert (iterator position, InputIterator first, InputIterator last)
+		{
+			while (first != last)
+			{
+				position = insert(position, *first);
+				position++, first++;
+			}
+		}
 	};
 
 }

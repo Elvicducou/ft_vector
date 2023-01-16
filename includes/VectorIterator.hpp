@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 10:30:50 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/14 17:35:29 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/16 11:13:19 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,19 @@ namespace ft
 		{
 			vectorIterator tmp(_p);
 			tmp -= n;
-			return (_p);							
+			return (tmp);							
 		}
 
-		vectorIterator &operator+=(int increment)
+		difference_type operator+(vectorIterator const &rhs) const
+		{	return (_p + rhs._p);							}
+
+		difference_type operator-(vectorIterator const &rhs) const
+		{	return (_p - rhs._p);							}
+
+		vectorIterator &operator+=(difference_type increment)
 		{	return (_p += increment, *this);				}
 
-		vectorIterator &operator-=(int increment)
+		vectorIterator &operator-=(difference_type increment)
 		{	return (_p -= increment, *this);				}
 
 		vectorIterator &operator++(void)
@@ -112,10 +118,10 @@ namespace ft
 			return (--_p, tmp);
 		}
 
-		reference operator[](int index)
+		reference operator[](size_t index)
 		{ 	return _p[index];								}
 
-		reference operator[](int index) const
+		reference operator[](size_t index) const
 		{ 	return _p[index];								}
 
 		pointer base(void) const
