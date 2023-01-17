@@ -58,7 +58,8 @@ namespace ft
 		};
 
 		template <class InputIterator> //totest
-		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+		vector (typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::istrue first,
+		InputIterator last, const allocator_type& alloc = allocator_type())
 		: _allocator(alloc)
 		{
 			assign(first, last);
@@ -237,22 +238,22 @@ namespace ft
 
 		reference front(void)
 		{
-			return (_p);
+			return (*_p);
 		}
 
 		const_reference front() const
 		{
-			return (_p);
+			return (*_p);
 		}
 
 		reference back()
 		{
-			return (_p + _size);
+			return (*(_p + _size));
 		}
 
 		const_reference back() const
 		{
-			return (_p + _size);
+			return (*(_p + _size));
 		}
 
 		//			End of Access						//
@@ -319,7 +320,8 @@ namespace ft
 		}
 
 		template <class InputIterator>
-    	void insert (iterator position, InputIterator first, InputIterator last)
+    	void insert (iterator position, typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::istrue first,
+		InputIterator last)
 		{
 			while (first != last)
 			{
@@ -363,7 +365,53 @@ namespace ft
 		}
 
 		//		End of Allocator					//
+	}; // End of class Vector
+
+	//		Relational operators (non members)	//
+
+	template <class T, class Alloc>
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	};
+
+	template <class T, class Alloc>
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()) ? false : true);
+	}
+
+	template <class T, class Alloc>
+	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	template <class T, class Alloc>
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (!(lhs == rhs))
+			return (lhs < rhs);
+		else
+			return (true);
+	}
+
+	template <class T, class Alloc>
+	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (!(lhs < rhs));
+	}
+
+	template <class T, class Alloc>
+  	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (!(lhs == rhs))
+			return (!(lhs < rhs));
+		else
+			return (true);
+	}
+
+	//		End of relational operators			//
 
 }
 #endif
