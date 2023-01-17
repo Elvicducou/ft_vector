@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:25:12 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/16 19:27:17 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/17 10:02:41 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	testspace_vector(void)
 	ft::vector<int>	myvector;
 	//ft::vector<int>	myvector2(10, 10);
 	ft::vector<std::string> myvector3(10, "bite");
+	ft::vector<std::string> myvector4(10, "bite");
 	//myvector3.resize(12, "prout");
 	//myvector3.reserve(300000);
 	//myvector3.resize(10, "prout");
@@ -71,6 +72,8 @@ void	testspace_vector(void)
 	//myvector3.pop_back();
 	myvector3.insert(myvector3.end(), 1, "new");
 	myvector3.insert(myvector3.begin(), "WAOOOOOOOOOU");
+	std::cout << "first elem after erase : " << *(myvector3.erase(myvector3.begin() + 2)) << std::endl;
+	myvector3.swap(myvector4);
 	for (ft::vectorIterator<std::string> iter = myvector3.begin(); iter != myvector3.end(); iter++)
 	{
 		std::cout << "print : " << *iter << std::endl;

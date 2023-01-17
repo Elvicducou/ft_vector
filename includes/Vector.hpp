@@ -78,10 +78,14 @@ namespace ft
 
 		//			Operator Overload						//
 		
-		vector	&operator=(vector const &rhs)		//tocomplete
-		{	_p = rhs._p;
-			_size = rhs._size;
-			_capacity = rhs._capacity;
+		vector	&operator=(vector const &rhs)		//tocomplete // CAUTION TO REWRITE
+		{	
+			if (this != &rhs)
+			{
+				ft::exchange(_p, rhs._p);
+				ft::exchange(_size, rhs._size);
+				ft::exchange(_capacity, rhs._capacity);
+			}
 			return (*this);
 		}
 
@@ -317,6 +321,42 @@ namespace ft
 				position++, first++;
 			}
 		}
+
+		iterator erase (iterator position)
+		{
+			return(erase(position, position + 1));
+		}
+
+		iterator erase (iterator first, iterator last)
+		{
+			difference_type diff = last - first;
+			size_t			new_size = _size - diff;
+			iterator 		iter(last);
+		
+			while (iter != end())
+				*first = *iter, iter++, first++;
+			while (_size > new_size)
+				pop_back();
+			return (last);
+		}
+
+		void swap (vector& x)
+		{
+			ft::exchange(_p, x._p);
+			ft::exchange(_size, x._size);
+			ft::exchange(_capacity, x._capacity);
+		}
+
+		//		End of Modifiers					//
+
+		//		Allocator							//
+
+		allocator_type get_allocator() const
+		{
+			return(_allocator);
+		}
+
+		//		End of Allocator					//
 	};
 
 }
