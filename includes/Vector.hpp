@@ -3,6 +3,7 @@
 
 #include "VectorIterator.hpp"
 #include "ReverseIterator.hpp"
+#include "project.hh"
 #include <memory>
 
 namespace ft
@@ -60,14 +61,17 @@ namespace ft
 		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
 		: _allocator(alloc)
 		{
-			_p = _allocator.allocate(last - first);
-			_size = last - first;
-			_capacity = last - first;
-			std::uninitialized_copy_n(first, _size, _p);
+			assign(first, last);
 		};
 		
 		vector (const vector& rhs)	//todo
-		{(void)rhs;};
+		{
+			_allocator = rhs._allocator;
+			_size = rhs._size;
+			_p = _allocator.allocate(_size);
+			for (size_type i = 0; i < _size; i++)
+				_allocator.construct(_p + i, *(rhs._p + i));
+		};
 
 		~vector	()
 		{
@@ -78,13 +82,16 @@ namespace ft
 
 		//			Operator Overload						//
 		
-		vector	&operator=(vector const &rhs)		//tocomplete // CAUTION TO REWRITE
+		vector	&operator=(vector const &rhs)		//tocomplete // totest after rewrite
 		{	
 			if (this != &rhs)
 			{
-				ft::exchange(_p, rhs._p);
-				ft::exchange(_size, rhs._size);
-				ft::exchange(_capacity, rhs._capacity);
+				clear();
+				_allocator = rhs._allocator;
+				_size = rhs._size;
+				_p = _allocator.allocate(_size);
+				for (size_type i = 0; i < _size; i++)
+					_allocator.construct(_p + i, *(rhs._p + i));
 			}
 			return (*this);
 		}
@@ -191,8 +198,6 @@ namespace ft
 				{
 					if (i < _size)
 						_allocator.construct(tmp_p + i, *(_p + i));
-					else
-						_allocator.construct(tmp_p + i, static_cast<value_type>("0"));
 				}
 				_allocator.deallocate(_p, _capacity);
 				_capacity = n;
@@ -257,11 +262,12 @@ namespace ft
 		template <class InputIterator>
   		void assign (InputIterator first, InputIterator last) //totest
 		{
-			if (last - first > _capacity)
-				reserve(last - first);
-			_size = last - first;
-			_capacity = last - first;
-			std::uninitialized_copy_n(first, _size, _p);
+			if (ft::iterator_diff(first, last) > _capacity)
+				reserve(ft::iterator_diff(first, last));
+			_size = ft::iterator_diff(first, last);
+			_capacity = _size;
+			for (size_type i = 0; first != last; first++)
+				_allocator.construct(_p + i++, *(first));
 		}
 
 		void assign (size_type n, const value_type& val) //totest
