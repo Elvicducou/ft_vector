@@ -1,19 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/17 21:10:41 by vducoulo          #+#    #+#             */
+/*   Updated: 2023/01/18 15:24:20 by vducoulo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CPP_VECTOR_HPP
 # define CPP_VECTOR_HPP
 
-#include "VectorIterator.hpp"
-#include "ReverseIterator.hpp"
+#include "./Iterators/VectorIterator.hpp"
+#include "./Iterators/ReverseIterator.hpp"
 #include "project.hh"
 #include <memory>
 
 namespace ft
 {
-	template<typename T>
-	class reverseIterator
-	{
-
-	};
-
 	template<typename T, class Alloc = std::allocator<T> >
 	class vector
 	{
@@ -30,8 +36,8 @@ namespace ft
 		typedef std::size_t									size_type;
 		typedef vectorIterator<value_type>					iterator;
 		typedef vectorIterator<value_type> const 			const_iterator;
-		typedef reverseIterator<iterator>					reverse_iterator;
-		typedef reverseIterator<const_iterator> const		const_reverse_iterator;
+		typedef reverse_iterator<iterator>					reverse_iterator;
+		typedef reverse_iterator<const_iterator>			const_reverse_iterator;
 
 		private :
 

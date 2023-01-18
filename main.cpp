@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:25:12 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/17 15:37:43 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/17 20:47:03 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	testspace_vector(void)
 	{
 		std::cout << "print : " << *iter << std::endl;
 	}
+
+	ft::vector<std::string>::reverse_iterator riter;
 }
 
 int main(void)
