@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:10:41 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/18 15:24:20 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/19 12:49:35 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ namespace ft
 		typedef	std::ptrdiff_t								difference_type;
 		typedef std::size_t									size_type;
 		typedef vectorIterator<value_type>					iterator;
-		typedef vectorIterator<value_type> const 			const_iterator;
-		typedef reverse_iterator<iterator>					reverse_iterator;
+		typedef vectorIterator<value_type const>			const_iterator;
 		typedef reverse_iterator<const_iterator>			const_reverse_iterator;
+		typedef reverse_iterator<iterator>					reverse_iterator;
 
 		private :
 

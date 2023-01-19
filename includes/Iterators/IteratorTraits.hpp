@@ -6,16 +6,18 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:10:21 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/17 21:40:08 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/19 12:46:42 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CPP_ITERATORTRAITS_HPP
 # define CPP_ITERATORTRAITS_HPP
 
+# include "../project.hh"
+
 namespace ft {
 
-	template <class Iterator>
+	template <class Iterator> //add iterator category ?
 	class iterator_traits
 	{
 		public :
@@ -24,7 +26,6 @@ namespace ft {
 		typedef typename Iterator::value_type			value_type;
 		typedef typename Iterator::pointer				pointer;
 		typedef typename Iterator::reference			reference;
-		typedef typename Iterator::iterator_category	iterator_category;
 	};
 
 	template <class T>
