@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:25:12 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/17 20:47:03 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:28:05 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ void testspace_iterator(void)
 	ft::vectorIterator<std::string> myinterator2;
 	std::vector<std::string>::iterator baseiterator;
 
+	test.push_back("poru");
+	test.push_back("last");
+	//ft::vector<std::string>::reverse_iterator reviter();
+	//ft::vector<std::string>::reverse_iterator reviter2(reviter);
 	myiterator = myinterator2;
 	++myiterator;
 	myinterator2++;
@@ -29,10 +33,11 @@ void testspace_iterator(void)
 	myiterator++;
 	myinterator2 += 2;
 	myiterator += 2;
-	if (myiterator == myinterator2)
-		std::cout << "equal" << std::endl;
-	else if (myiterator != myinterator2)
-		std::cout << "no equals" << std::endl;
+	//if (reviter == reviter2)
+	//	std::cout << "equal" << std::endl;
+	//else if (myiterator != myinterator2)
+	//	std::cout << "no equals" << std::endl;
+	
 }
 
 template <typename T>
@@ -86,7 +91,7 @@ void	testspace_vector(void)
 
 int main(void)
 {
-	testspace_vector();
-	//testspace_iterator();
+	//testspace_vector();
+	testspace_iterator();
 	//range_vector_constructor_test();
 }
