@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:10:26 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/20 17:39:59 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:27:38 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ namespace ft
 		
 		reverse_iterator operator+ (difference_type n) const
 		{
-			return (this - n);
+			return (revrse_operator(this - n));
 		}
 
 		reverse_iterator& operator++(void)
 		{
-			return (--_i);
+			return (reverse_iterator(--_i));
 		}
 		
 		reverse_iterator  operator++(int)
@@ -82,7 +82,7 @@ namespace ft
 
 		reverse_iterator operator- (difference_type n) const
 		{
-			return (this + n);
+			return (reverse_iterator(this + n));
 		}
 
 		reverse_iterator& operator--(void)
