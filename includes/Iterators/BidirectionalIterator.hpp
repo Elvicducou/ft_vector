@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterator.hpp                                       :+:      :+:    :+:   */
+/*   BidirectionalIterator.hpp                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 22:21:14 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/27 16:06:38 by vducoulo         ###   ########.fr       */
+/*   Created: 2023/01/27 15:41:17 by vducoulo          #+#    #+#             */
+/*   Updated: 2023/01/27 15:43:22 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../project.hh"
+#ifndef CPP_BIDIRECTIONALITERATOR_HPP
+# define CPP_BIDIRECTIONALITERATOR_HPP
 
-namespace ft
-{
-	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class iterator
-	{
-		public :
-		
-		typedef T         value_type;
-		typedef Distance  difference_type;
-		typedef Pointer   pointer;
-		typedef Reference reference;
-		typedef Category  iterator_category;
-	};
-}
+#endif

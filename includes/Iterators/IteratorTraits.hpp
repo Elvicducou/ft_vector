@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:10:21 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/26 22:51:34 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:21:34 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ namespace ft {
 	struct input_iterator_tag {};
 	struct output_iterator_tag {};
 	struct forward_iterator_tag : public input_iterator_tag {};
+	struct bidirectional_iterator_tag : public forward_iterator_tag {};
 	struct random_access_iterator_tag : public input_iterator_tag {};
-	struct bidirectional_iterator_tag : public bidirectional_iterator_tag {};
 	
 	template <class Iterator>
 	class iterator_traits

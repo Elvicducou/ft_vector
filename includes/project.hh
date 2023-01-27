@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 10:29:52 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/26 22:55:24 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/27 15:59:15 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <cstddef>
 # include <memory>
 
-# include "iterators/iterator.hpp"
-# include "iterators/IteratorTraits.hpp"
+# include "Iterators/iterator.hpp"
+# include "Iterators/IteratorTraits.hpp"
 
 namespace ft
 {
