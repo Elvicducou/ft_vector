@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:10:41 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/27 16:14:02 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/30 19:41:13 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ namespace ft
 		public :
 
 		typedef T 																value_type;
-		typedef std::allocator<T>												allocator_type;
+		typedef Alloc															allocator_type;
 		typedef typename allocator_type::pointer 								pointer;
 		typedef typename allocator_type::const_pointer							const_pointer;
 		typedef typename allocator_type::reference 								reference;
@@ -53,7 +53,10 @@ namespace ft
 
 
 		explicit vector (const allocator_type& alloc = allocator_type()) 
-		: _p(nullptr), _size(0), _capacity(0), _allocator(alloc)	{};
+		: _p(nullptr), _size(0), _capacity(0), _allocator(alloc)
+		{
+			//std::cout << "entered default constructor" << std::endl;
+		};
 
 		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 		: _size(n), _capacity(n), _allocator(alloc)
@@ -66,8 +69,9 @@ namespace ft
 		template <class InputIterator> //totest
 		vector (typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::istrue first,
 		InputIterator last, const allocator_type& alloc = allocator_type())
-		: _allocator(alloc)
+		: _p(nullptr), _size(0), _capacity(0), _allocator(alloc)
 		{
+			//std::cout << "entered range constructor" << std::endl;
 			assign(first, last);
 		};
 		
@@ -78,7 +82,13 @@ namespace ft
 
 		~vector	()
 		{
-			this->clear();
+			//std::cout << "destructor called" << std::endl;
+			if (_size)
+				this->clear();
+			if (_capacity)
+				_allocator.deallocate(_p, _capacity);
+			_p = nullptr;
+			_capacity = 0;
 		};
 
 		//			End of Constructors / Destructors		//
@@ -90,11 +100,16 @@ namespace ft
 			if (this != &rhs)
 			{
 				clear();
+				if (_capacity)
+					_allocator.deallocate(_p, _capacity);
 				_allocator = rhs._allocator;
 				_size = rhs._size;
-				_p = _allocator.allocate(_size);
+				if (_size)
+					_p = _allocator.allocate(_size);
+				_capacity = rhs._capacity;
 				for (size_type i = 0; i < _size; i++)
 					_allocator.construct(_p + i, *(rhs._p + i));
+				//std::cout << "operator = done, size : " << _size << std::endl;
 			}
 			return (*this);
 		}
@@ -159,7 +174,7 @@ namespace ft
 
 		void resize(size_type n, value_type val = value_type())	//totest //DRASTIC CHANGE NEEDED
 		{
-			if (n >= _capacity)
+			if (n > _capacity)
 			{
 				pointer tmp_p = _allocator.allocate(n);
 				for (size_t i = 0; i < n; i++)
@@ -169,7 +184,8 @@ namespace ft
 					else
 						_allocator.construct(tmp_p + i, val);
 				}
-				_allocator.deallocate(_p, _capacity);
+				if (_capacity)
+					_allocator.deallocate(_p, _capacity);
 				_p = tmp_p;
 				_capacity = n;
 			}
@@ -202,7 +218,11 @@ namespace ft
 					if (i < _size)
 						_allocator.construct(tmp_p + i, *(_p + i));
 				}
-				_allocator.deallocate(_p, _capacity);
+				if (_capacity)
+				{	for (size_type i = _size; i;)
+						_allocator.destroy(_p + --i);
+					_allocator.deallocate(_p, _capacity);
+				}
 				_capacity = n;
 				_p = tmp_p;
 			}
@@ -226,14 +246,17 @@ namespace ft
 
 		reference at (size_type n)
 		{
-			if (n > _size)
+			if (n >= _size)
+			{
+				//std::cout << "EXECPTION !!!" << std::endl;
 				throw (std::out_of_range("out of range"));
+			}
 			return (*(_p + n));
 		}
 
 		const_reference at (size_type n) const
 		{
-			if (n > _size)
+			if (n >= _size)
 				throw (std::out_of_range("out of range"));
 			return (*(_p + n));
 		}
@@ -265,10 +288,13 @@ namespace ft
 		template <class InputIterator>
   		void assign (InputIterator first, InputIterator last) //totest
 		{
+			//std::cout << "entered range assigner, size : " << _size << std::endl;
+			clear();
 			if (ft::iterator_diff(first, last) > _capacity)
+			{
 				reserve(ft::iterator_diff(first, last));
+			}
 			_size = ft::iterator_diff(first, last);
-			_capacity = _size;
 			for (size_type i = 0; first != last; first++)
 				_allocator.construct(_p + i++, *(first));
 		}
@@ -281,10 +307,13 @@ namespace ft
 
 		void clear (void)
 		{
-			_allocator.deallocate(_p, _capacity);
-			_size = 0;
-			_capacity = 0;
-			_p = nullptr;
+			//std::cout << "entering clear function from " << from << ", size : " << _size << std::endl;
+			while (_size)
+			{
+				//std::cout << "entered loop" << std::endl;
+				_allocator.destroy(_p + --_size);
+			}
+			//std::cout << "clearing ! new size : " << _size << std::endl;
 		}
 
 		void push_back (const value_type& val)
@@ -299,7 +328,8 @@ namespace ft
 		{
 			if (_size)
 			{
-				_size --;
+				_allocator.destroy(_p + --_size);
+				//std::cout << "pop_back ! new size : " << _size << std::endl;
 			}
 		}
 

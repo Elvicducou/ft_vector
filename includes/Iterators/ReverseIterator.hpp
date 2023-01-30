@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:10:26 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/27 15:46:54 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/30 12:44:49 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ namespace ft
 		reverse_iterator() : _i(nullptr) {}
 		explicit reverse_iterator (iterator_type it) : _i(it) {}
 		template <class Iter>
-		reverse_iterator (const reverse_iterator<Iter>& rev_it) { _i = rev_it._i; }
+		reverse_iterator (const reverse_iterator<Iter>& rev_it) { _i = rev_it.base(); }
 		virtual ~reverse_iterator() {};
 
 
@@ -53,7 +53,7 @@ namespace ft
 		template <class Iter>
   		reverse_iterator& operator= (const reverse_iterator<Iter>& rev_it)
 		{
-			_i = rev_it._i;
+			_i = rev_it.base();
 		}
 
 		reference operator*() const
