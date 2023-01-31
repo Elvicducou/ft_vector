@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 10:29:52 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/27 15:59:15 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/31 16:48:31 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ namespace ft
 			return (true);
 		else if (first1 != last1 && first2 == last2)
 			return (false);
-		else
-			return (*first1 < *first2);
+		else if (first1 == last1 && first2 == last2)
+			return (false);
+		return (*first1 < *first2);
 	}
 
 	template< bool B, class True = void >
@@ -68,6 +69,7 @@ namespace ft
 	size_t iterator_diff(ite first, ite last)
 	{
 		size_t i = 0;
+		
 		while (first != last)
 			i++, first++;
 		return (i);

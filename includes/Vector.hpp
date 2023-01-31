@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:10:41 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/30 19:41:13 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/31 17:52:48 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ namespace ft
 		explicit vector (const allocator_type& alloc = allocator_type()) 
 		: _p(nullptr), _size(0), _capacity(0), _allocator(alloc)
 		{
+			_p = _allocator.allocate(_size);
 			//std::cout << "entered default constructor" << std::endl;
 		};
 
@@ -71,12 +72,14 @@ namespace ft
 		InputIterator last, const allocator_type& alloc = allocator_type())
 		: _p(nullptr), _size(0), _capacity(0), _allocator(alloc)
 		{
-			//std::cout << "entered range constructor" << std::endl;
+			//std::cout << "entered range constructor, first : " << *first << std::endl;
+			_p = _allocator.allocate(_size);
 			assign(first, last);
 		};
 		
-		vector (const vector& rhs)
+		vector (const vector& rhs) : _p(nullptr), _size(0), _capacity(0), _allocator(rhs._allocator)
 		{
+			_p = _allocator.allocate(_size);
 			*this = rhs;
 		};
 
@@ -85,8 +88,7 @@ namespace ft
 			//std::cout << "destructor called" << std::endl;
 			if (_size)
 				this->clear();
-			if (_capacity)
-				_allocator.deallocate(_p, _capacity);
+			_allocator.deallocate(_p, _capacity);
 			_p = nullptr;
 			_capacity = 0;
 		};
@@ -184,7 +186,7 @@ namespace ft
 					else
 						_allocator.construct(tmp_p + i, val);
 				}
-				if (_capacity)
+				 
 					_allocator.deallocate(_p, _capacity);
 				_p = tmp_p;
 				_capacity = n;
@@ -268,17 +270,17 @@ namespace ft
 
 		const_reference front() const
 		{
-			return (*_p);
+			return (reference(_p));
 		}
 
 		reference back()
 		{
-			return (*(_p + _size));
+			return (*(_p + _size - 1));
 		}
 
 		const_reference back() const
 		{
-			return (*(_p + _size));
+			return (*(_p + _size - 1));
 		}
 
 		//			End of Access						//
@@ -286,20 +288,14 @@ namespace ft
 		//			Modifiers							//
 
 		template <class InputIterator>
-  		void assign (InputIterator first, InputIterator last) //totest
+  		void assign (InputIterator first, InputIterator last)
 		{
-			//std::cout << "entered range assigner, size : " << _size << std::endl;
-			clear();
-			if (ft::iterator_diff(first, last) > _capacity)
-			{
-				reserve(ft::iterator_diff(first, last));
-			}
-			_size = ft::iterator_diff(first, last);
-			for (size_type i = 0; first != last; first++)
-				_allocator.construct(_p + i++, *(first));
+			typename ft::iterator_traits<InputIterator>::iterator_category ite_category;
+			_assign(first, last, ite_category);
+			
 		}
 
-		void assign (size_type n, const value_type& val) //totest
+		void assign (size_type n, const value_type& val)
 		{
 			this->clear();
 			this->resize(n, val);
@@ -397,6 +393,40 @@ namespace ft
 		}
 
 		//		End of Allocator					//
+
+		private :
+		
+		template <class InputIterator>
+		void _assign(InputIterator first, InputIterator last, ft::input_iterator_tag)
+		{
+			if (_size)
+				clear();
+			for (; first != last; first++)
+				push_back(*first);
+		}
+		
+		template <class InputIterator>
+		void _assign(InputIterator first, InputIterator last, std::input_iterator_tag)
+		{
+			if (_size)
+				clear();
+			for (; first != last; first++)
+				push_back(*first);
+		}
+		
+		template <class InputIterator, class IteratorCategory>
+		void _assign(InputIterator first, InputIterator last, IteratorCategory)
+		{
+			size_t diff = ft::iterator_diff(first, last);
+			if (_size)
+				clear();
+			if (diff > _capacity)
+				reserve(diff);
+			_size = diff;
+			for (size_type i = 0; first != last; first++)
+				_allocator.construct(_p + i++, *first);
+		}
+		
 	}; // End of class Vector
 
 	//		Relational operators (non members)	//
@@ -404,18 +434,22 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
+		if (lhs.size() != rhs.size())
+			return (false);
 		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	};
 
 	template <class T, class Alloc>
 	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()) ? false : true);
+		return (!(lhs == rhs));
 	}
 
 	template <class T, class Alloc>
 	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
+		if (lhs.size() > rhs.size())
+			return (false);
 		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 
@@ -431,6 +465,8 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
+		if (lhs.size() < rhs.size() || lhs == rhs)
+			return (false);
 		return (!(lhs < rhs));
 	}
 
