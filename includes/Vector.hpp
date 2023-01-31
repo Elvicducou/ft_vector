@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:10:41 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/31 17:52:48 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/01/31 18:41:40 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,10 @@ namespace ft
 			if (this != &rhs)
 			{
 				clear();
-				if (_capacity)
-					_allocator.deallocate(_p, _capacity);
+				_allocator.deallocate(_p, _capacity);
 				_allocator = rhs._allocator;
 				_size = rhs._size;
-				if (_size)
-					_p = _allocator.allocate(_size);
+				_p = _allocator.allocate(_size);
 				_capacity = rhs._capacity;
 				for (size_type i = 0; i < _size; i++)
 					_allocator.construct(_p + i, *(rhs._p + i));
@@ -186,8 +184,7 @@ namespace ft
 					else
 						_allocator.construct(tmp_p + i, val);
 				}
-				 
-					_allocator.deallocate(_p, _capacity);
+				_allocator.deallocate(_p, _capacity);
 				_p = tmp_p;
 				_capacity = n;
 			}
@@ -207,7 +204,7 @@ namespace ft
 
 		bool empty(void) const
 		{
-			return (_size ? true : false);
+			return (_size ? false : true);
 		}
 
 		void reserve(size_type n)			//totest
@@ -220,11 +217,11 @@ namespace ft
 					if (i < _size)
 						_allocator.construct(tmp_p + i, *(_p + i));
 				}
-				if (_capacity)
+				if (_size)
 				{	for (size_type i = _size; i;)
 						_allocator.destroy(_p + --i);
-					_allocator.deallocate(_p, _capacity);
 				}
+				_allocator.deallocate(_p, _capacity);
 				_capacity = n;
 				_p = tmp_p;
 			}
@@ -234,7 +231,7 @@ namespace ft
 
 		//			Element Access							//
 
-		reference operator[] (size_type n) // better with return( this->_P[]) ? 
+		reference operator[] (size_type n)
 		{
 			// need for std::exeption ?
 			return (*(_p + n));
@@ -270,7 +267,7 @@ namespace ft
 
 		const_reference front() const
 		{
-			return (reference(_p));
+			return (*_p);
 		}
 
 		reference back()
@@ -373,7 +370,7 @@ namespace ft
 				*first = *iter, iter++, first++;
 			while (_size > new_size)
 				pop_back();
-			return (last);
+			return (last - 1);
 		}
 
 		void swap (vector& x)
