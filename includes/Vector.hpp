@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:10:41 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/01/31 18:41:40 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/01 18:40:58 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ namespace ft
 		typedef typename ft::random_access_iterator<value_type>					iterator;
 		typedef typename ft::random_access_iterator<value_type const>			const_iterator;
 		typedef	typename ft::iterator_traits<iterator>::difference_type			difference_type;
-		typedef reverse_iterator<const_iterator>								const_reverse_iterator;
-		typedef reverse_iterator<iterator>										reverse_iterator;
+		typedef typename ft::reverse_iterator<const_iterator>					const_reverse_iterator;
+		typedef typename ft::reverse_iterator<iterator>							reverse_iterator;
 
 		private :
 
@@ -106,7 +106,7 @@ namespace ft
 				_allocator = rhs._allocator;
 				_size = rhs._size;
 				_p = _allocator.allocate(_size);
-				_capacity = rhs._capacity;
+				_capacity = _size;
 				for (size_type i = 0; i < _size; i++)
 					_allocator.construct(_p + i, *(rhs._p + i));
 				//std::cout << "operator = done, size : " << _size << std::endl;
@@ -130,12 +130,12 @@ namespace ft
 
 		reverse_iterator rbegin(void)
 		{
-			return (reverse_iterator(_p));
+			return (reverse_iterator(_p + _size));
 		}
 
 		const_reverse_iterator rbegin(void) const
 		{
-			return (const_revrese_iterator(_p));
+			return (const_reverse_iterator(_p + _size));
 		}
 
 		iterator end(void)
@@ -150,12 +150,12 @@ namespace ft
 
 		reverse_iterator rend(void)
 		{
-			return (reverse_iterator(_p + _size));
+			return (reverse_iterator(_p));
 		}
 
 		const_reverse_iterator rend(void) const
 		{
-			return (const_reverse_iterator(_p + _size));
+			return (const_reverse_iterator(_p));
 		}
 
 		//			End of Iterators						//
@@ -169,7 +169,7 @@ namespace ft
 
 		size_type max_size(void) const
 		{
-			return (_allocator.max_size());
+			return (std::min(_allocator.max_size(), static_cast<size_type>(std::numeric_limits<difference_type>::max())));
 		}
 
 		void resize(size_type n, value_type val = value_type())	//totest //DRASTIC CHANGE NEEDED
@@ -184,6 +184,7 @@ namespace ft
 					else
 						_allocator.construct(tmp_p + i, val);
 				}
+				clear();
 				_allocator.deallocate(_p, _capacity);
 				_p = tmp_p;
 				_capacity = n;
@@ -341,7 +342,12 @@ namespace ft
 			iterator iter = begin() + diff;
 			iterator iter_end = end();
 			while (iter_end - n != iter)
-				tmp = *(iter_end - 1), *(iter_end - 1) = *(iter_end - 1 - n), *(iter_end - 1 - n) = tmp, iter_end--;
+			{
+				tmp = *(iter_end - 1);
+				*(iter_end - 1) = *(iter_end - 1 - n);
+				*(iter_end - 1 - n) = tmp;
+				iter_end--;
+			}
 		}
 
 		template <class InputIterator>
@@ -476,6 +482,11 @@ namespace ft
 			return (true);
 	}
 
+	template <class T, class Alloc>
+	void swap(ft::vector<T, Alloc> &lhs, ft::vector<T, Alloc> &rhs)
+	{
+		lhs.swap(rhs);
+	}
 	//		End of relational operators			//
 
 }
